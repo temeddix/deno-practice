@@ -1,10 +1,14 @@
 // my-component.ts
 export class MyComponent extends HTMLElement {
+  shadow: ShadowRoot;
   constructor() {
     super();
-    this.attachShadow({
+    this.shadow = this.attachShadow({
       mode: "open",
-    }).innerHTML = `<p>Hello from Deno Web Component!</p>`;
+    });
+    const pElement = document.createElement("p");
+    pElement.innerText = "Hello from Deno Web Component!";
+    this.shadow.appendChild(pElement);
   }
 }
 customElements.define("my-component", MyComponent);

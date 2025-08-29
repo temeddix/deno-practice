@@ -1,2 +1,2 @@
-export * from "./logic.ts";
+export * from "./utils.ts";
 export * from "./web_component.ts";

@@ -5,7 +5,7 @@ console.log("Open your browser and navigate to http://localhost:8000");
 
 Deno.serve({ port: 8000 }, (req) => {
   return serveDir(req, {
-    fsRoot: ".",
+    fsRoot: "./dist",
     urlRoot: "",
     enableCors: true,
   });

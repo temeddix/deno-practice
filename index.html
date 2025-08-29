@@ -27,6 +27,11 @@
     <!-- Standalone other component -->
     <other-comp message="Standalone component"></other-comp>
 
-    <script type="module" src="./src/web_component.ts"></script>
+    <script type="module">
+      import "/mod.js";
+      const dynamicComp = document.createElement("advanced-counter");
+      dynamicComp.title = "Dynamically Created Component";
+      document.body?.appendChild(dynamicComp);
+    </script>
   </body>
 </html>

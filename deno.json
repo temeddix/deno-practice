@@ -4,7 +4,7 @@
     ".": "./src/mod.ts"
   },
   "tasks": {
-    "bundle": "deno run -A bundle.ts",
+    "build": "deno bundle ./src/mod.ts --outdir dist",
     "serve": "deno run --allow-net --allow-read server.ts"
   },
   "imports": {

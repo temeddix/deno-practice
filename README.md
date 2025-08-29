@@ -4,10 +4,9 @@
 deno test
 ```
 
-```shell
-deno task bundle
-```
+Make sure you've copied `index.html` into `dist` before running the server.
 
 ```shell
-deno run --allow-net --allow-read server.ts
+deno task build
+deno task serve
 ```

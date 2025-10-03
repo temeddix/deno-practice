@@ -1,5 +1,6 @@
 import { add } from "@/site";
 import { css, html, LitElement } from "lit";
+import { customElement, state } from "lit/decorators.js";
 
 // Business logic types and utilities
 interface CounterState {
@@ -155,15 +156,15 @@ class CounterBusinessLogic {
   }
 }
 
+@customElement("advanced-counter")
 export class AdvancedCounter extends LitElement {
   private counterLogic: CounterBusinessLogic;
-  private state: CounterState;
-  private stats: CounterStats;
 
-  static override properties = {
-    state: { type: Object },
-    stats: { type: Object },
-  };
+  @state()
+  accessor state: CounterState;
+
+  @state()
+  accessor stats: CounterStats;
 
   constructor() {
     super();
@@ -429,17 +430,17 @@ export class AdvancedCounter extends LitElement {
     return html`
       <div class="counter-display">
         <div class="counter-mode ${this.state.mode === "auto"
-        ? "mode-auto"
-        : "mode-manual"}">
+          ? "mode-auto"
+          : "mode-manual"}">
           ${this.state.mode} mode
         </div>
         <div class="counter-value">${this.state.value}</div>
         <div class="bounds-indicator">
           Range: ${this.state.min} to ${this.state.max} ${isAtMin || isAtMax
-        ? html`
-          <span class="at-limit">(at limit!)</span>
-        `
-        : ""}
+            ? html`
+              <span class="at-limit">(at limit!)</span>
+            `
+            : ""}
         </div>
       </div>
 
@@ -544,4 +545,3 @@ export class AdvancedCounter extends LitElement {
     `;
   }
 }
-customElements.define("advanced-counter", AdvancedCounter);

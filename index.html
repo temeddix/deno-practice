@@ -16,22 +16,10 @@
         text-align: center;
       }
     </style>
+    <script type="module" src="/bundle.js"></script>
   </head>
   <body>
     <h1>Lit Components Demo</h1>
-
-    <!-- Using your Lit components -->
-    <my-comp title="Welcome to Lit!"></my-comp>
-    <my-comp title="Another Instance"></my-comp>
-
-    <!-- Standalone other component -->
-    <other-comp message="Standalone component"></other-comp>
-
-    <script type="module">
-      import "/mod.js";
-      const dynamicComp = document.createElement("advanced-counter");
-      dynamicComp.title = "Dynamically Created Component";
-      document.body?.appendChild(dynamicComp);
-    </script>
+    <counter-wrapper></counter-wrapper>
   </body>
 </html>

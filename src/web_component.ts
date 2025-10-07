@@ -1,6 +1,6 @@
-import { add } from "@/site";
+import { add } from "./index.ts";
 import { css, html, LitElement } from "lit";
-import { customElement, state } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 
 // Business logic types and utilities
 interface CounterState {
@@ -160,6 +160,20 @@ class CounterBusinessLogic {
 export class AdvancedCounter extends LitElement {
   private counterLogic: CounterBusinessLogic;
 
+  // Properties - data passed from parent components
+  @property({ attribute: "comp-title", type: String })
+  accessor compTitle: string = "Advanced Counter";
+
+  @property({ attribute: "theme", type: String })
+  accessor theme: "light" | "dark" | string = "light";
+
+  @property({ attribute: "disabled", type: Boolean, reflect: true })
+  accessor disabled: boolean = false;
+
+  @property({ attribute: "initial-value", type: Number })
+  accessor initialValue: number = 0;
+
+  // State - internal component state
   @state()
   accessor state: CounterState;
 
@@ -169,6 +183,7 @@ export class AdvancedCounter extends LitElement {
   constructor() {
     super();
     this.counterLogic = new CounterBusinessLogic({
+      value: this.initialValue, // Use the property value
       min: -50,
       max: 100,
       stepSize: 1,
@@ -203,6 +218,28 @@ export class AdvancedCounter extends LitElement {
       background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :host([theme="dark"]) {
+      background: linear-gradient(135deg, #424242 0%, #303030 100%);
+      border-color: #64b5f6;
+      color: white;
+    }
+
+    :host([disabled]) {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    h2 {
+      margin: 0 0 20px 0;
+      text-align: center;
+      color: #1976d2;
+      font-size: 1.5rem;
+    }
+
+    :host([theme="dark"]) h2 {
+      color: #64b5f6;
     }
 
     .counter-display {
@@ -428,19 +465,20 @@ export class AdvancedCounter extends LitElement {
     const isAtMax = this.state.value >= this.state.max;
 
     return html`
+      <h2>${this.compTitle}</h2>
       <div class="counter-display">
         <div class="counter-mode ${this.state.mode === "auto"
-          ? "mode-auto"
-          : "mode-manual"}">
+        ? "mode-auto"
+        : "mode-manual"}">
           ${this.state.mode} mode
         </div>
         <div class="counter-value">${this.state.value}</div>
         <div class="bounds-indicator">
           Range: ${this.state.min} to ${this.state.max} ${isAtMin || isAtMax
-            ? html`
-              <span class="at-limit">(at limit!)</span>
-            `
-            : ""}
+        ? html`
+          <span class="at-limit">(at limit!)</span>
+        `
+        : ""}
         </div>
       </div>
 
@@ -542,6 +580,15 @@ export class AdvancedCounter extends LitElement {
           </div>
         </div>
       </div>
+    `;
+  }
+}
+
+@customElement("counter-wrapper")
+export class CounterWrapper extends LitElement {
+  override render() {
+    return html`
+      <advanced-counter comp-title="Howdy"> </advanced-counter>
     `;
   }
 }

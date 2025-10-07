@@ -115,7 +115,7 @@ class CounterBusinessLogic {
     this.changeCallbacks.push(callback);
   }
 
-  destroy(): void {
+  dispose(): void {
     this.stopAutoIncrement();
     this.changeCallbacks = [];
   }
@@ -417,7 +417,7 @@ export class AdvancedCounter extends LitElement {
 
   override disconnectedCallback() {
     super.disconnectedCallback();
-    this.counterLogic.destroy();
+    this.counterLogic.dispose();
   }
 
   private handleIncrement() {

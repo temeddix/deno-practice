@@ -588,7 +588,7 @@ export class AdvancedCounter extends LitElement {
 export class CounterWrapper extends LitElement {
   override render() {
     return html`
-      <advanced-counter comp-title="Howdy"> </advanced-counter>
+      <advanced-counter comp-title="Howdy"></advanced-counter>
     `;
   }
 }

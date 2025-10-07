@@ -587,3 +587,24 @@ export class CounterWrapper extends LitElement {
     `;
   }
 }
+
+@customElement("app-home")
+export class AppHome extends LitElement {
+  static override styles = css`
+    :host {
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      margin: 0 auto;
+    }
+  `;
+
+  override render() {
+    return html`
+      <slot></slot>
+    `;
+  }
+}

@@ -1,4 +1,4 @@
-import { add } from "./index.ts";
+import { add } from "./utils.ts";
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 

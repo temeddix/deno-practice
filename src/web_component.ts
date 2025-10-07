@@ -165,7 +165,7 @@ export class AdvancedCounter extends LitElement {
   accessor compTitle: string = "Advanced Counter";
 
   @property({ attribute: "theme", type: String })
-  accessor theme: "light" | "dark" | string = "light";
+  accessor theme: string = "light";
 
   @property({ attribute: "disabled", type: Boolean, reflect: true })
   accessor disabled: boolean = false;
@@ -179,34 +179,6 @@ export class AdvancedCounter extends LitElement {
 
   @state()
   accessor stats: CounterStats;
-
-  constructor() {
-    super();
-    this.counterLogic = new CounterBusinessLogic({
-      value: this.initialValue, // Use the property value
-      min: -50,
-      max: 100,
-      stepSize: 1,
-      autoInterval: 500,
-    });
-    this.state = this.counterLogic.getState();
-    this.stats = this.counterLogic.getStatistics();
-
-    // Listen for state changes
-    this.counterLogic.onStateChange((newState) => {
-      this.state = newState;
-      this.stats = this.counterLogic.getStatistics();
-      this.requestUpdate();
-
-      // Dispatch custom event for parent components
-      this.dispatchEvent(
-        new CustomEvent("counter-changed", {
-          detail: { value: newState.value, stats: this.stats },
-          bubbles: true,
-        }),
-      );
-    });
-  }
 
   static override styles = css`
     :host {
@@ -413,6 +385,41 @@ export class AdvancedCounter extends LitElement {
     }
   `;
 
+  override connectedCallback() {
+    super.connectedCallback();
+
+    // Set up business logic when element is connected to DOM
+    this.counterLogic = new CounterBusinessLogic({
+      value: this.initialValue, // Use the property value
+      min: -50,
+      max: 100,
+      stepSize: 1,
+      autoInterval: 500,
+    });
+    this.state = this.counterLogic.getState();
+    this.stats = this.counterLogic.getStatistics();
+
+    // Listen for state changes
+    this.counterLogic.onStateChange((newState) => {
+      this.state = newState;
+      this.stats = this.counterLogic.getStatistics();
+      this.requestUpdate();
+
+      // Dispatch custom event for parent components
+      this.dispatchEvent(
+        new CustomEvent("counter-changed", {
+          detail: { value: newState.value, stats: this.stats },
+          bubbles: true,
+        }),
+      );
+    });
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.counterLogic.destroy();
+  }
+
   private handleIncrement() {
     this.counterLogic.increment();
   }
@@ -453,11 +460,6 @@ export class AdvancedCounter extends LitElement {
     const target = event.target as HTMLInputElement;
     const max = parseInt(target.value) || 100;
     this.counterLogic.setBounds(this.state.min, max);
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    this.counterLogic.destroy();
   }
 
   override render() {

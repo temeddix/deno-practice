@@ -5,12 +5,12 @@ import { customElement, property, state } from "lit/decorators.js";
 // Business logic types and utilities
 interface CounterState {
   value: number;
-  history: number[];
-  mode: "manual" | "auto";
   stepSize: number;
   min: number;
   max: number;
   autoInterval: number;
+  mode: "manual" | "auto";
+  history: number[];
 }
 
 interface CounterStats {
@@ -26,16 +26,15 @@ class CounterBusinessLogic {
   private autoTimer?: number;
   private changeCallbacks: Array<(state: CounterState) => void> = [];
 
-  constructor(initialState: Partial<CounterState> = {}) {
+  constructor(initialValue: number = 0) {
     this.state = {
-      value: 0,
-      history: [0],
-      mode: "manual",
+      value: initialValue,
+      min: -50,
+      max: 100,
       stepSize: 1,
-      min: -Infinity,
-      max: Infinity,
-      autoInterval: 1000,
-      ...initialState,
+      autoInterval: 500,
+      mode: "manual",
+      history: [initialValue],
     };
   }
 
@@ -389,13 +388,7 @@ export class AdvancedCounter extends LitElement {
     super.connectedCallback();
 
     // Set up business logic when element is connected to DOM
-    this.counterLogic = new CounterBusinessLogic({
-      value: this.initialValue, // Use the property value
-      min: -50,
-      max: 100,
-      stepSize: 1,
-      autoInterval: 500,
-    });
+    this.counterLogic = new CounterBusinessLogic();
     this.state = this.counterLogic.getState();
     this.stats = this.counterLogic.getStatistics();
 

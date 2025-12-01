@@ -12,7 +12,7 @@
     "@lib/esbuild": "https://deno.land/x/esbuild@v0.20.1/mod.js",
     "@lib/esbuild-deno": "jsr:@luca/esbuild-deno-loader@0.9",
     "lit": "https://esm.sh/lit@3.1.4",
-    "lit/": "https://esm.sh/lit@3.1.4/"
+    "lit/decorators": "https://esm.sh/lit@3.1.4/decorators"
   },
   "compilerOptions": {
     "lib": ["deno.ns", "esnext", "dom", "dom.iterable"],

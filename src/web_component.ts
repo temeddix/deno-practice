@@ -1,6 +1,6 @@
 import { add } from "./utils.ts";
 import { css, html, LitElement } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators";
 
 // Business logic types and utilities
 interface CounterState {
@@ -463,17 +463,17 @@ export class AdvancedCounter extends LitElement {
       <h2>${this.compTitle}</h2>
       <div class="counter-display">
         <div class="counter-mode ${this.state.mode === "auto"
-        ? "mode-auto"
-        : "mode-manual"}">
+          ? "mode-auto"
+          : "mode-manual"}">
           ${this.state.mode} mode
         </div>
         <div class="counter-value">${this.state.value}</div>
         <div class="bounds-indicator">
           Range: ${this.state.min} to ${this.state.max} ${isAtMin || isAtMax
-        ? html`
-          <span class="at-limit">(at limit!)</span>
-        `
-        : ""}
+            ? html`
+              <span class="at-limit">(at limit!)</span>
+            `
+            : ""}
         </div>
       </div>
 

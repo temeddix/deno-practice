@@ -180,21 +180,27 @@ export class AdvancedCounter extends LitElement {
   accessor stats: CounterStats;
 
   static override styles = css`
+    /* 60-30-10 Color Rule:
+      60% - Neutral backgrounds (#f5f7fa, #ffffff, #e8ecf1)
+      30% - Secondary accents (#34495e, #7f8c8d)
+      10% - Primary accent (#3498db) */
+
     :host {
       display: block;
-      padding: 24px;
-      border: 3px solid #2196f3;
-      border-radius: 12px;
-      margin: 16px 0;
-      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: 16px auto;
+      padding: 32px;
+      border: 1px solid #e8ecf1;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
 
     :host([theme="dark"]) {
-      background: linear-gradient(135deg, #424242 0%, #303030 100%);
-      border-color: #64b5f6;
-      color: white;
+      background: #2c3e50;
+      border-color: #34495e;
+      color: #ecf0f1;
     }
 
     :host([disabled]) {
@@ -203,48 +209,63 @@ export class AdvancedCounter extends LitElement {
     }
 
     h2 {
-      margin: 0 0 20px 0;
+      margin: 0 0 24px 0;
       text-align: center;
-      color: #1976d2;
-      font-size: 1.5rem;
+      color: #34495e;
+      font-size: 1.75rem;
+      font-weight: 600;
     }
 
     :host([theme="dark"]) h2 {
-      color: #64b5f6;
+      color: #ecf0f1;
     }
 
     .counter-display {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 32px;
+      padding: 24px;
+      background: #f5f7fa;
+      border-radius: 8px;
+      border: 1px solid #e8ecf1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    :host([theme="dark"]) .counter-display {
+      background: #34495e;
     }
 
     .counter-value {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #1976d2;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      margin: 10px 0;
+      font-size: 4rem;
+      font-weight: 300;
+      color: #34495e;
+      margin: 16px 0;
+      letter-spacing: -2px;
+    }
+
+    :host([theme="dark"]) .counter-value {
+      color: #ecf0f1;
     }
 
     .counter-mode {
       display: inline-block;
-      padding: 4px 12px;
-      border-radius: 16px;
-      font-size: 0.8rem;
-      font-weight: bold;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
     }
 
     .mode-manual {
-      background-color: #4caf50;
-      color: white;
+      background-color: #e8ecf1;
+      color: #34495e;
     }
 
     .mode-auto {
-      background-color: #ff9800;
+      background-color: #3498db;
       color: white;
-      animation: pulse 1s infinite;
+      animation: pulse 2s ease-in-out infinite;
     }
 
     @keyframes pulse {
@@ -252,65 +273,110 @@ export class AdvancedCounter extends LitElement {
         opacity: 1;
       }
       50% {
-        opacity: 0.7;
+        opacity: 0.8;
       }
     }
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     button {
-      padding: 12px 16px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
+      padding: 14px 20px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
       font-size: 14px;
+      background: #e8ecf1;
+      color: #34495e;
     }
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      background: #d5dce3;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .btn-primary {
-      background-color: #2196f3;
+      background-color: #3498db;
       color: white;
+      border-color: #3498db;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: #2980b9;
+      border-color: #2980b9;
     }
 
     .btn-secondary {
-      background-color: #757575;
+      background-color: #7f8c8d;
       color: white;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: #6c7a7b;
     }
 
     .btn-success {
-      background-color: #4caf50;
+      background-color: #e8ecf1;
+      color: #34495e;
+      border: 1px solid #d5dce3;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background-color: #3498db;
       color: white;
+      border-color: #3498db;
     }
 
     .btn-warning {
-      background-color: #ff9800;
+      background-color: #e8ecf1;
+      color: #34495e;
+      border: 1px solid #d5dce3;
+    }
+
+    .btn-warning:hover:not(:disabled) {
+      background-color: #7f8c8d;
       color: white;
+      border-color: #7f8c8d;
     }
 
     .btn-danger {
-      background-color: #f44336;
+      background-color: #e8ecf1;
+      color: #34495e;
+      border: 1px solid #d5dce3;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background-color: #7f8c8d;
       color: white;
+      border-color: #7f8c8d;
     }
 
     .settings {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
-      padding: 16px;
-      background-color: rgba(255, 255, 255, 0.7);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+      padding: 20px;
+      background-color: #f5f7fa;
       border-radius: 8px;
+      border: 1px solid #e8ecf1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    :host([theme="dark"]) .settings {
+      background-color: #34495e;
     }
 
     .setting-group {
@@ -319,68 +385,108 @@ export class AdvancedCounter extends LitElement {
     }
 
     label {
-      font-weight: bold;
-      margin-bottom: 4px;
-      color: #424242;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #34495e;
+      font-size: 0.9rem;
+    }
+
+    :host([theme="dark"]) label {
+      color: #bdc3c7;
     }
 
     input[type="number"], input[type="range"] {
-      padding: 8px;
-      border: 2px solid #ddd;
+      padding: 8px 12px;
+      border: 1px solid #d5dce3;
       border-radius: 4px;
       font-size: 14px;
+      background: white;
+      color: #34495e;
+    }
+
+    :host([theme="dark"]) input[type="number"] {
+      background: #2c3e50;
+      color: #ecf0f1;
+      border-color: #4a5f7f;
     }
 
     input[type="range"] {
       padding: 0;
+      background: transparent;
+    }
+
+    input[type="number"]:focus, input[type="range"]:focus {
+      outline: 2px solid #3498db;
+      outline-offset: 2px;
     }
 
     .stats {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 16px;
+      background-color: #f5f7fa;
+      padding: 20px;
       border-radius: 8px;
-      border-left: 4px solid #2196f3;
+      border: 1px solid #e8ecf1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    :host([theme="dark"]) .stats {
+      background-color: #34495e;
     }
 
     .stats h3 {
-      margin-top: 0;
-      color: #1976d2;
+      margin: 0 0 16px 0;
+      color: #34495e;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    :host([theme="dark"]) .stats h3 {
+      color: #ecf0f1;
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
       gap: 12px;
     }
 
     .stat-item {
       text-align: center;
-      padding: 8px;
-      background-color: #f8f9fa;
+      padding: 12px;
+      background-color: white;
       border-radius: 6px;
+      border: 1px solid #e8ecf1;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    :host([theme="dark"]) .stat-item {
+      background-color: #2c3e50;
+      border-color: #4a5f7f;
     }
 
     .stat-value {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #2196f3;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #3498db;
+      margin-bottom: 4px;
     }
 
     .stat-label {
-      font-size: 0.8rem;
-      color: #666;
+      font-size: 0.7rem;
+      color: #7f8c8d;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
     }
 
     .bounds-indicator {
-      margin: 8px 0;
+      margin: 12px 0 0 0;
       font-size: 0.9rem;
-      color: #666;
+      color: #7f8c8d;
     }
 
     .at-limit {
-      color: #f44336;
-      font-weight: bold;
+      color: #3498db;
+      font-weight: 600;
     }
   `;
 

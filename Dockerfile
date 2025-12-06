@@ -5,6 +5,6 @@ WORKDIR /app
 COPY deno.json .
 COPY static/ ./static/
 
-EXPOSE 8000
+EXPOSE 80
 
 CMD ["deno", "task", "serve"]
